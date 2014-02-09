@@ -39,9 +39,11 @@ def writeQIFLine(f, row):
 
     if row['Memo']:
         f.write('M%s\n' % row['Memo'])
+    f.write('^\n')
 
 
 qif = open(qifname+'.qif','w')
+qif.write('!Type:Bank\n')
 for record in reader:
     # Ignore 'Check Hold' and 'Check Hold Release' entries
     if record['Description'].startswith('Check Hold'):

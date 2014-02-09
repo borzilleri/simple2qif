@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import re
 import csv
 import argparse
@@ -47,6 +48,10 @@ qif.write('!Type:Bank\n')
 for record in reader:
     # Ignore 'Check Hold' and 'Check Hold Release' entries
     if record['Description'].startswith('Check Hold'):
+        continue
+    # Ignore "Pending payment' activity, these are usually upcoming
+    # payments that haven't yet triggered.
+    if record['Activity'] == 'Pending payment':
         continue
     writeQIFLine(qif, record)
 
